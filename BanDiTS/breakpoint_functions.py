@@ -178,6 +178,15 @@ def count_breakpoint(arr1d, threshold):
         #### NEEDS REWORK DEPENDING ON USED SOBEL-FILTER SIZE
          - example values for VH, median_filter=9, sobel_filter=11: set between 20 and 50
          - example values for VH, median_filter=13, sobel_filter=19: set between 80 and 160
+        #### WORK FLOW for processing a series of filtered images ###
+         - set a threshold which visually good corresponds to the visible breakpoint threshold of a [-5, 0, 5] Sobel
+           filter matrix (for example "12")
+         -  just add "20" to every next Sobel filter size:
+            -> 3 = 12
+            -> 5 = 32
+            -> 7 = 52
+            -> 9 = 72
+
     Returns
     ----------
     numpy.int32
@@ -318,3 +327,4 @@ def find_single_troughs(arr1d, threshold):
     if len(peaks[0]) < 1:
         return 0
     ### NOT WORKING PROPERLY ###
+
