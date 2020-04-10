@@ -12,15 +12,16 @@ def main():
     ###################################     INPUT    ########################################
 
     # Input Folder:
-    raster_folder = "/example/path/to/input/folder/"
+    # raster_folder = "D:/HiWi/01_SALDI/Layerstacks/"
+    raster_folder = "D:/HiWi/01_SALDI/Output/"
 
     # Input File Name
-    raster_filename = "example_file_name"
+    raster_filename = "SubsetVH_Pilanesberg_median_filter3_sobel_filter[-5, -5, -5, -5, -5, 0, 5, 5, 5, 5, 5]"
 
     ###################################     OUTPUT    ########################################
 
     # Output Folder:
-    output_folder = "/example/path/to/output/folder/"
+    output_folder = "D:/HiWi/01_SALDI/Output/"
 
     ####################### USER-DEPENDENT FILTER-FUNCTIONS TO BE USED #######################
     # Example for mean filter:
@@ -28,12 +29,12 @@ def main():
     # filter_args = [{"kernel": 3}, {"kernel": 9}, {"kernel": 13}]
 
     # Example for median filter:
-    # filter_functions = [median_filter, median_filter, median_filter]
-    # filter_args = [{"kernel": 3}, {"kernel": 9}, {"kernel": 13}]
+    # filter_functions = [median_filter, median_filter, median_filter, median_filter, median_filter, median_filter]
+    # filter_args = [{"kernel": 3}, {"kernel": 5}, {"kernel": 7}, {"kernel": 9}, {"kernel": 11}, {"kernel": 13}]
 
     # Example for Sobel filter:
-    filter_functions = [sobel_filter, sobel_filter, sobel_filter]
-    filter_args = [{"kernel": [-5, 0, 5]}, {"kernel": [-5, -5, 0, 5, 5]}, {"kernel": [-5, -5, -5, -5, 0, 5, 5, 5, 5]}]
+    filter_functions = [sobel_filter]
+    filter_args = [{"kernel": [-5, -5, -5, -5, -5, 0, 5, 5, 5, 5, 5]}]
 
     ################### USER-DEPENDENT STATISTICAL FUNCTIONS TO BE USED ######################
     # Example for statistical function:
@@ -43,7 +44,7 @@ def main():
     ###################### USER-DEPENDENT BREAKPOINT FUNCTIONS TO BE USED ####################
     # Example for breakpoint functions (APPLY ONLY AFTER MEDIAN- AND SOBEL-FILTER!!!):
     breakpoint_functions = [count_breakpoint]
-    breakpoint_args = [{"threshold": 120}]
+    breakpoint_args = [{"threshold": 92}]
 
     ######################   NO USER INPUT BEYOND THIS POINT   ###############################
 
@@ -163,11 +164,11 @@ if __name__ == '__main__':
     #             filter_args=in_variables[4])
 
     # call this function to execute statistics functions:
-    statistics_func(raster_folder=str(in_variables[0]), raster_filename=str(in_variables[1]),
-                    output_folder=str(in_variables[2]), statistical_functions=in_variables[5],
-                    statistical_args=in_variables[6])
+    # statistics_func(raster_folder=str(in_variables[0]), raster_filename=str(in_variables[1]),
+    #                 output_folder=str(in_variables[2]), statistical_functions=in_variables[5],
+    #                 statistical_args=in_variables[6])
 
     # call this function to execute breakpoint functions:
-    # breakpoint_func(raster_folder=str(in_variables[0]), raster_filename=str(in_variables[1]),
-    #                 output_folder=str(in_variables[2]), breakpoint_functions=in_variables[7],
-    #                 breakpoint_args=in_variables[8])
+    breakpoint_func(raster_folder=str(in_variables[0]), raster_filename=str(in_variables[1]),
+                    output_folder=str(in_variables[2]), breakpoint_functions=in_variables[7],
+                    breakpoint_args=in_variables[8])
