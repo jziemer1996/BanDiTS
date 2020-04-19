@@ -41,6 +41,8 @@ def rio_array(input_file, hdr_file):
     # delete all bands with mostly -99 values (cheap and dirty detection)
     y_axis_len = arr.shape[1]  # length of y-axis
     x_axis_len = arr.shape[2]  # length of x-axis
+    # print(y_axis_len)
+    # print(x_axis_len)
     rotate_arr = arr
     rotate_arr = np.rollaxis(rotate_arr, 2)
     rotate_arr = np.rollaxis(rotate_arr, 2)

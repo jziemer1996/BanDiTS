@@ -181,7 +181,7 @@ def count_breakpoint(arr1d, threshold):
         #### WORK FLOW for processing a series of filtered images ###
          - set a threshold which visually good corresponds to the visible breakpoint threshold of a [-5, 0, 5] Sobel
            filter matrix (for example "12")
-         -  just add "20" to every next Sobel filter size:
+         -  just add for example "10" or "20" to every next Sobel filter size:
             -> 3 = 12
             -> 5 = 32
             -> 7 = 52
