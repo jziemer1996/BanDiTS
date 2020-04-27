@@ -12,24 +12,24 @@ def main():
     ###################################     INPUT    ########################################
 
     # Input Folder:
-    raster_folder = "D:/HiWi/01_SALDI/Layerstacks/"
+    # raster_folder = "D:/HiWi/01_SALDI/Layerstacks/Pilanesberg/13_eskom_powerlines_jonas/"
     # raster_folder = "D:/HiWi/AAA_GEO402_Daten/"
 
     # raster_folder = "D:/HiWi/01_SALDI/Output_Augrabies/"
     # raster_folder = "D:/HiWi/01_SALDI/Output_Mokala/"
-    # raster_folder = "D:/HiWi/01_SALDI/Output_Mpumalanga/"
+    raster_folder = "D:/HiWi/01_SALDI/Output_Mpumalanga/"
     # raster_folder = "D:/HiWi/01_SALDI/Output_Freestate/"
     # raster_folder = "D:/HiWi/01_SALDI/Output_Pilanesberg/"
     # raster_folder = "D:/HiWi/01_SALDI/Output_Agulhas/"
 
 
     # Input File Name
-    raster_filename = "S1_A_VH_stack_free_state_full_area_50m"
+    raster_filename = "S1_A_VV_stack_mpumalanga_full_study_site_50m_median_filter3"
 
     ###################################     OUTPUT    ########################################
 
     # Output Folder:
-    output_folder = "D:/HiWi/01_SALDI/Output_Freestate/"
+    output_folder = "D:/HiWi/01_SALDI/Output_Mpumalanga/"
 
     ####################### USER-DEPENDENT FILTER-FUNCTIONS TO BE USED #######################
     # Example for mean filter:
@@ -46,13 +46,13 @@ def main():
 
     ################### USER-DEPENDENT STATISTICAL FUNCTIONS TO BE USED ######################
     # Example for statistical function:
-    statistical_functions = [percentile, median]
-    statistical_args = [{"upper": 95, "lower": 5}, {}]
+    statistical_functions = [simple_threshold]
+    statistical_args = [{"threshold": -21}]
 
     ###################### USER-DEPENDENT BREAKPOINT FUNCTIONS TO BE USED ####################
     # Example for breakpoint functions (APPLY ONLY AFTER MEDIAN- AND SOBEL-FILTER!!!):
     breakpoint_functions = [count_breakpoint]
-    breakpoint_args = [{"threshold": 95}]
+    breakpoint_args = [{"threshold": 125}]
 
     ######################   NO USER INPUT BEYOND THIS POINT   ###############################
 
@@ -110,6 +110,7 @@ def statistics_func(raster_folder, raster_filename, output_folder, statistical_f
     # dates = arr[1]
 
     for i, func in enumerate(statistical_functions):
+        threshold_size = str(statistical_args[i]['threshold'])
         # creating results with calling wanted algorithm in parallel_apply_along_axis for quick runtime
         result = apply_along_axis.parallel_apply_along_axis(func1d=func, arr=arr[0], axis=0,
                                                             cores=mp.cpu_count(), **statistical_args[i])
@@ -122,8 +123,9 @@ def statistics_func(raster_folder, raster_filename, output_folder, statistical_f
         func_name = str(func)[func_name_start:func_name_end]
 
         # exporting result to new raster
-        export_arr.functions_out_array(outname=outname + "_" + func_name + str(i), arr=result, input_file=input_raster,
+        export_arr.functions_out_array(outname=outname + "_" + func_name + str(threshold_size), arr=result, input_file=input_raster,
                                        dtype=dtype)
+
     # print time to this point
     statistics_time = datetime.now()
     print("breakpoint-time = ", statistics_time - start_time, "Hr:min:sec")
@@ -167,14 +169,14 @@ if __name__ == '__main__':
     in_variables = main()
 
     # call this function to execute filter functions:
-    filter_func(raster_folder=str(in_variables[0]), raster_filename=str(in_variables[1]),
-                output_folder=str(in_variables[2]), filter_functions=in_variables[3],
-                filter_args=in_variables[4])
+    # filter_func(raster_folder=str(in_variables[0]), raster_filename=str(in_variables[1]),
+    #             output_folder=str(in_variables[2]), filter_functions=in_variables[3],
+    #             filter_args=in_variables[4])
 
     # call this function to execute statistics functions:
-    # statistics_func(raster_folder=str(in_variables[0]), raster_filename=str(in_variables[1]),
-    #                 output_folder=str(in_variables[2]), statistical_functions=in_variables[5],
-    #                 statistical_args=in_variables[6])
+    statistics_func(raster_folder=str(in_variables[0]), raster_filename=str(in_variables[1]),
+                    output_folder=str(in_variables[2]), statistical_functions=in_variables[5],
+                    statistical_args=in_variables[6])
 
     # call this function to execute breakpoint functions:
     # breakpoint_func(raster_folder=str(in_variables[0]), raster_filename=str(in_variables[1]),
