@@ -47,7 +47,7 @@ def main():
     ################### USER-DEPENDENT STATISTICAL FUNCTIONS TO BE USED ######################
     # Example for statistical function:
     statistical_functions = [otsu]
-    statistical_args = [{}]
+    statistical_args = [{}]         # take care of name of statistical arguments in export (line 113)
 
     ###################### USER-DEPENDENT BREAKPOINT FUNCTIONS TO BE USED ####################
     # Example for breakpoint functions (APPLY ONLY AFTER MEDIAN- AND SOBEL-FILTER!!!):
