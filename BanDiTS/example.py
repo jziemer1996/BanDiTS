@@ -12,24 +12,24 @@ def main():
     ###################################     INPUT    ########################################
 
     # Input Folder:
-    # raster_folder = "D:/HiWi/01_SALDI/Layerstacks/Pilanesberg/13_eskom_powerlines_jonas/"
+    raster_folder = "D:/HiWi/01_SALDI/Layerstacks/Pilanesberg/13_eskom_powerlines_jonas/"
     # raster_folder = "D:/HiWi/AAA_GEO402_Daten/"
 
     # raster_folder = "D:/HiWi/01_SALDI/Output_Augrabies/"
     # raster_folder = "D:/HiWi/01_SALDI/Output_Mokala/"
-    raster_folder = "D:/HiWi/01_SALDI/Output_Mpumalanga/"
+    # raster_folder = "D:/HiWi/01_SALDI/Output_Mpumalanga/"
     # raster_folder = "D:/HiWi/01_SALDI/Output_Freestate/"
     # raster_folder = "D:/HiWi/01_SALDI/Output_Pilanesberg/"
     # raster_folder = "D:/HiWi/01_SALDI/Output_Agulhas/"
 
 
     # Input File Name
-    raster_filename = "S1_A_VV_stack_mpumalanga_full_study_site_50m_median_filter3"
+    raster_filename = "S1_A_VH_stack_powerline_subset"
 
     ###################################     OUTPUT    ########################################
 
     # Output Folder:
-    output_folder = "D:/HiWi/01_SALDI/Output_Mpumalanga/"
+    output_folder = "D:/HiWi/01_SALDI/Layerstacks/Pilanesberg/13_eskom_powerlines_jonas/"
 
     ####################### USER-DEPENDENT FILTER-FUNCTIONS TO BE USED #######################
     # Example for mean filter:
@@ -46,8 +46,8 @@ def main():
 
     ################### USER-DEPENDENT STATISTICAL FUNCTIONS TO BE USED ######################
     # Example for statistical function:
-    statistical_functions = [simple_threshold]
-    statistical_args = [{"threshold": -21}]
+    statistical_functions = [otsu]
+    statistical_args = [{}]
 
     ###################### USER-DEPENDENT BREAKPOINT FUNCTIONS TO BE USED ####################
     # Example for breakpoint functions (APPLY ONLY AFTER MEDIAN- AND SOBEL-FILTER!!!):
@@ -107,10 +107,10 @@ def statistics_func(raster_folder, raster_filename, output_folder, statistical_f
     arr = preprocessing.rio_array(input_raster, hdr_file=hdr_file)
 
     # activate to get list of dates from .hdr file (.hdr file needs to be specified above)
-    # dates = arr[1]
+    dates = arr[1]
 
     for i, func in enumerate(statistical_functions):
-        threshold_size = str(statistical_args[i]['threshold'])
+        #threshold_size = str(statistical_args[i]['threshold_size'])
         # creating results with calling wanted algorithm in parallel_apply_along_axis for quick runtime
         result = apply_along_axis.parallel_apply_along_axis(func1d=func, arr=arr[0], axis=0,
                                                             cores=mp.cpu_count(), **statistical_args[i])
@@ -123,7 +123,7 @@ def statistics_func(raster_folder, raster_filename, output_folder, statistical_f
         func_name = str(func)[func_name_start:func_name_end]
 
         # exporting result to new raster
-        export_arr.functions_out_array(outname=outname + "_" + func_name + str(threshold_size), arr=result, input_file=input_raster,
+        export_arr.functions_out_array(outname=outname + "_" + func_name + str(), arr=result, input_file=input_raster,
                                        dtype=dtype)
 
     # print time to this point
