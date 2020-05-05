@@ -209,17 +209,6 @@ def amplitude_stdev(arr1d, sigma, threshold):
         return 0
 
 
-def otsu(arr1d):
-    """
-    https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.threshold_otsu
-    :param arr1d:
-    :return:
-    """
-    import skimage.filters as sf
-    thresh = sf.threshold_otsu(arr1d, nbins=256)
-    return thresh
-
-
 def enhanced_amplitude_stdev(arr1d, sigma1, sigma2, sigma3, threshold):
     """
     calculates the probability space of each time series and checks if the minimum value falls within the
