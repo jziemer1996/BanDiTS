@@ -9,7 +9,7 @@ def count_threshold1(arr1d, threshold):
     from scipy.signal import find_peaks
     import numpy as np
     peaks = find_peaks(arr1d, height=threshold)
-    return len(peaks[0])
+    return len(peaks)
 
 
 def threshold_otsu(arr1d):
