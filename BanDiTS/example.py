@@ -55,13 +55,13 @@ def main():
 
     ################### USER-DEPENDENT WATER FUNCTIONS TO BE USED ######################
     # Example for water function:
-    water_functions = [count_threshold1]
-    water_args = [{"threshold":-23.45}]  # take care of name of statistical arguments in export (line 113)
+    water_functions = [count_threshold]
+    water_args = [{"lower":-23.45, "upper":-22}]  # take care of name of statistical arguments in export (line 113)
 
     ###################### USER-DEPENDENT BREAKPOINT FUNCTIONS TO BE USED ####################
     # Example for breakpoint functions (APPLY ONLY AFTER MEDIAN- AND SOBEL-FILTER!!!):
-    breakpoint_functions = [count_breakpoint]
-    breakpoint_args = [{"threshold": 70}]
+    breakpoint_functions = [count_threshold2]
+    breakpoint_args = [{"lower":-24, "upper":-22}]
 
     ######################   NO USER INPUT BEYOND THIS POINT   ###############################
 
@@ -227,7 +227,6 @@ if __name__ == '__main__':
     water_func(raster_folder=str(in_variables[0]), raster_filename=str(in_variables[1]),
                     output_folder=str(in_variables[2]), water_functions=in_variables[7],
                     water_args=in_variables[8])
-
 
     # call this function to execute breakpoint functions:
     # breakpoint_func(raster_folder=str(in_variables[0]), raster_filename=str(in_variables[1]),
